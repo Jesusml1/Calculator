@@ -1,9 +1,10 @@
-# ENDOGENIC CALULATOR V1.0
+# CALULATOR V1.1
 
 from tkinter import *
 import re
 
-# OPERATIONS FUNTION
+
+# INTERGER OPERATIONS 
 
 def op(to_calc):
 
@@ -32,9 +33,42 @@ def op(to_calc):
 			to_calc.insert(0, c)
 			print(to_calc)
 
-	
-
 	return to_calc[0]
+
+
+#FLOAT OPERATIONS
+
+def f_op(to_calc):
+
+	if "+" or "-" or "x" or "/" in to_calc:
+
+		to_calc = re.split('([^\d\.])', to_calc)
+		print(to_calc)
+
+		while len(to_calc) > 2:
+
+			a = to_calc[0]
+			b = to_calc[2]
+
+			if to_calc[1] == "+":
+				c = float(a) + float(b)
+			elif to_calc[1] == "-":
+				c = float(a) - float(b)
+			elif to_calc[1] == "x":
+				c = float(a) * float(b)
+			elif to_calc[1] == "/":
+				c = float(a) / float(b)
+			elif to_calc[1] == "%":
+				c = float(a) / 100
+				return c
+
+			del to_calc[0:3]
+			to_calc.insert(0, c)
+			print(to_calc)
+
+	
+	return round(to_calc[0],3)
+
 
 #FUNCTION PER BOTTOM
 
@@ -44,12 +78,17 @@ def clear():
 
 def calc():
 	to_calc = display_entry.get()
-	display_result.configure(text = str(op(to_calc)))
+
+	if "." in to_calc:
+		display_result.configure(text = str(f_op(to_calc)))
+	else:
+		display_result.configure(text = str(op(to_calc)))
+	
 
 # TKINTER WINDOW 
 
 window = Tk()
-window.title("Calculator v1.0")
+window.title("Calculator v1.1")
 window.resizable(width = False, height = False)
 
 display_entry = Entry(window, text = "", justify = 'left')
